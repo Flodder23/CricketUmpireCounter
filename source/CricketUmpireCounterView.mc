@@ -1,3 +1,4 @@
+import Toybox.Application.Storage;
 import Toybox.Attention;
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -45,6 +46,12 @@ class CricketUmpireCounterView extends WatchUi.View {
 	// the state of this View and prepare it to be shown. This includes
 	// loading resources into memory.
 	function onShow() as Void {
+		var count = Storage.getValue("count");
+		if (count == null) {
+			System.println("couldn't load 'count' from storage");
+		} else {
+			_count = count;
+		}
 	}
 
 	// Update the view
@@ -61,6 +68,7 @@ class CricketUmpireCounterView extends WatchUi.View {
 	// state of this View here. This includes freeing resources from
 	// memory.
 	function onHide() as Void {
+		Storage.setValue("count", _count);
 	}
 
 	function get_count() as Number{
