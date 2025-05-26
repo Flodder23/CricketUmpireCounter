@@ -18,7 +18,9 @@ class CricketUmpireCounterApp extends Application.AppBase {
 
 	// Return the initial view of your application here
 	function getInitialView() as [Views] or [Views, InputDelegates] {
-		return [ new CricketUmpireCounterView(), new CricketUmpireCounterDelegate() ];
+		var view = new $.CricketUmpireCounterView();
+		var delegate = new $.CricketUmpireCounterDelegate(view);
+		return [view, delegate];
 	}
 
 }
