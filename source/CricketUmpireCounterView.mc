@@ -7,10 +7,10 @@ import Toybox.System;
 class CricketUmpireCounterView extends WatchUi.View {
 	private var _label_count as Text?;
 
-	private var _count as Number = 0;
-
 	private var _min as Number = 0;
 	private var _max as Number = 5;
+
+	private var _count as Number = _min;
 
 	static const _vibrate_pulse as Attention.VibeProfile = new Attention.VibeProfile(100, 100 );
 	static const _vibrate_short as Attention.VibeProfile = new Attention.VibeProfile(100, 250 );
@@ -33,11 +33,11 @@ class CricketUmpireCounterView extends WatchUi.View {
 
 	// Load your resources here
 	function onLayout(dc as Dc) as Void {
-		setLayout($.Rez.Layouts.MainLayout(dc));
+		setLayout(Rez.Layouts.MainLayout(dc));
 
 		_label_count = View.findDrawableById("label_count") as Text?;
 		if (_label_count == null) {
-			System.println(("couldn't find `label_count`"));
+			System.println(("couldn't find 'label_count'"));
 		}
 	}
 
@@ -70,12 +70,12 @@ class CricketUmpireCounterView extends WatchUi.View {
 	function set_count(count) as Void {
 		_count = count;
 
-		if (_count >= _max) { // if we've gone over, reset
+		if (_count > _max) { // if we've gone over, reset
 			Attention.vibrate(_vibrate_over);
 			_count = _min;
-		} else if (_count == _max - 1) {
+		} else if (_count == _max) {
 			Attention.vibrate(_vibrate_one);
-		} else if (_count == _max - 2) {
+		} else if (_count == _max - 1) {
 			Attention.vibrate(_vibrate_two);
 		} else if (_count >= _min) {
 			Attention.vibrate(_vibrate_def);
