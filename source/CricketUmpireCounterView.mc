@@ -1,3 +1,4 @@
+import Toybox.Attention;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
@@ -10,6 +11,21 @@ class CricketUmpireCounterView extends WatchUi.View {
 
 	private var _min as Number = 0;
 	private var _max as Number = 5;
+
+	static const _vibrate_pulse as Attention.VibeProfile = new Attention.VibeProfile(100, 100 );
+	static const _vibrate_short as Attention.VibeProfile = new Attention.VibeProfile(100, 250 );
+	static const _vibrate_med   as Attention.VibeProfile = new Attention.VibeProfile(100, 500 );
+	static const _vibrate_long  as Attention.VibeProfile = new Attention.VibeProfile(100, 1000);
+	static const _vibrate_gap   as Attention.VibeProfile = new Attention.VibeProfile(0  , 250 );
+
+	static const _vibrate_def  as Array<Attention.VibeProfile> = [ _vibrate_pulse ];
+	static const _vibrate_over as Array<Attention.VibeProfile> = [ _vibrate_long  ];
+	static const _vibrate_one  as Array<Attention.VibeProfile> = [ _vibrate_med   ];
+	static const _vibrate_two  as Array<Attention.VibeProfile> = [
+		_vibrate_short,
+		_vibrate_gap  ,
+		_vibrate_short
+	];
 
 	function initialize() {
 		View.initialize();
@@ -55,8 +71,15 @@ class CricketUmpireCounterView extends WatchUi.View {
 		_count = count;
 
 		if (_count >= _max) { // if we've gone over, reset
+			Attention.vibrate(_vibrate_over);
 			_count = _min;
-		} else if (_count < _min) {
+		} else if (_count == _max - 1) {
+			Attention.vibrate(_vibrate_one);
+		} else if (_count == _max - 2) {
+			Attention.vibrate(_vibrate_two);
+		} else if (_count >= _min) {
+			Attention.vibrate(_vibrate_def);
+		} else {
 			_count = _min; // if we've (somehow) gone below, reset
 		}
 
