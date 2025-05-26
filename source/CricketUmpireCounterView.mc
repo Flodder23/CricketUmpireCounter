@@ -13,19 +13,19 @@ class CricketUmpireCounterView extends WatchUi.View {
 
 	private var _count as Number = _min;
 
-	static const _vibrate_pulse as Attention.VibeProfile = new Attention.VibeProfile(100, 100 );
-	static const _vibrate_short as Attention.VibeProfile = new Attention.VibeProfile(100, 250 );
-	static const _vibrate_med   as Attention.VibeProfile = new Attention.VibeProfile(100, 500 );
-	static const _vibrate_long  as Attention.VibeProfile = new Attention.VibeProfile(100, 1000);
-	static const _vibrate_gap   as Attention.VibeProfile = new Attention.VibeProfile(0  , 250 );
+	private static const _vibeProfile_pulse as Attention.VibeProfile = new Attention.VibeProfile(100, 100 );
+	private static const _vibeProfile_short as Attention.VibeProfile = new Attention.VibeProfile(100, 250 );
+	private static const _vibeProfile_med   as Attention.VibeProfile = new Attention.VibeProfile(100, 500 );
+	private static const _vibeProfile_long  as Attention.VibeProfile = new Attention.VibeProfile(100, 1000);
+	private static const _vibeProfile_gap   as Attention.VibeProfile = new Attention.VibeProfile(0  , 250 );
 
-	static const _vibrate_def  as Array<Attention.VibeProfile> = [ _vibrate_pulse ];
-	static const _vibrate_over as Array<Attention.VibeProfile> = [ _vibrate_long  ];
-	static const _vibrate_one  as Array<Attention.VibeProfile> = [ _vibrate_med   ];
-	static const _vibrate_two  as Array<Attention.VibeProfile> = [
-		_vibrate_short,
-		_vibrate_gap  ,
-		_vibrate_short
+	private static const _vibePattern_def  as Array<Attention.VibeProfile> = [ _vibeProfile_pulse ];
+	private static const _vibePattern_over as Array<Attention.VibeProfile> = [ _vibeProfile_long  ];
+	private static const _vibePattern_one  as Array<Attention.VibeProfile> = [ _vibeProfile_med   ];
+	private static const _vibePattern_two  as Array<Attention.VibeProfile> = [
+		_vibeProfile_short,
+		_vibeProfile_gap  ,
+		_vibeProfile_short
 	];
 
 	function initialize() {
@@ -79,14 +79,14 @@ class CricketUmpireCounterView extends WatchUi.View {
 		_count = count;
 
 		if (_count > _max) { // if we've gone over, reset
-			Attention.vibrate(_vibrate_over);
+			Attention.vibrate(_vibePattern_over);
 			_count = _min;
 		} else if (_count == _max) {
-			Attention.vibrate(_vibrate_one);
+			Attention.vibrate(_vibePattern_one);
 		} else if (_count == _max - 1) {
-			Attention.vibrate(_vibrate_two);
+			Attention.vibrate(_vibePattern_two);
 		} else if (_count >= _min) {
-			Attention.vibrate(_vibrate_def);
+			Attention.vibrate(_vibePattern_def);
 		} else {
 			_count = _min; // if we've (somehow) gone below, reset
 		}
