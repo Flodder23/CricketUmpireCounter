@@ -1,0 +1,6 @@
+# Garmin ignores
+bin/
+builds/
+
+# My ignores
+exports/
