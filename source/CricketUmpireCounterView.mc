@@ -42,16 +42,35 @@ class CricketUmpireCounterView extends WatchUi.View {
 		}
 	}
 
+	function _storage_getValue(key as String, default_value as Toybox.Application.PropertyValueType) as Toybox.Application.PropertyValueType {
+		var val;
+		if (Toybox.Application has :Storage) {
+			val = Storage.getValue(key);
+		} else {
+			val = Application.getApp().getProperty(key);
+		}
+
+		if (val == null) {
+			System.println("couldn't load '" + key + "' from storage, setting to default value " + default_value.toString());
+			return default_value;
+		} else {
+			return val;
+		}
+	}
+
+	function _storage_setValue(key as String, value as Toybox.Application.PropertyValueType) as Void {
+		if (Toybox.Application has :Storage) {
+			Storage.setValue(key, value);
+		} else {
+			Application.getApp().setProperty(key, value);
+		}
+	}
+
 	// Called when this View is brought to the foreground. Restore
 	// the state of this View and prepare it to be shown. This includes
 	// loading resources into memory.
 	function onShow() as Void {
-		var count = Storage.getValue("count");
-		if (count == null) {
-			System.println("couldn't load 'count' from storage");
-		} else {
-			_count = count;
-		}
+		_count = _storage_getValue("count", _count);
 	}
 
 	// Update the view
@@ -68,7 +87,7 @@ class CricketUmpireCounterView extends WatchUi.View {
 	// state of this View here. This includes freeing resources from
 	// memory.
 	function onHide() as Void {
-		Storage.setValue("count", _count);
+		_storage_setValue("count", _count);
 	}
 
 	function get_count() as Number{
