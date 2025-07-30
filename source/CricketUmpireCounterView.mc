@@ -98,14 +98,14 @@ class CricketUmpireCounterView extends WatchUi.View {
 		_count = count;
 
 		if (_count > _max) { // if we've gone over, reset
-			Attention.vibrate(_vibePattern_over);
+			if (Attention has :vibrate) { Attention.vibrate(_vibePattern_over); }
 			_count = _min;
 		} else if (_count == _max) {
-			Attention.vibrate(_vibePattern_one);
+			if (Attention has :vibrate) { Attention.vibrate(_vibePattern_one); }
 		} else if (_count == _max - 1) {
-			Attention.vibrate(_vibePattern_two);
+			if (Attention has :vibrate) { Attention.vibrate(_vibePattern_two); }
 		} else if (_count >= _min) {
-			Attention.vibrate(_vibePattern_def);
+			if (Attention has :vibrate) { Attention.vibrate(_vibePattern_def); }
 		} else {
 			_count = _min; // if we've (somehow) gone below, reset
 		}
